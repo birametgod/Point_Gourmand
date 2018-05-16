@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "576565161885",
+    "firebase_url": "https://pointgourmand-3d8a8.firebaseio.com",
+    "project_id": "pointgourmand-3d8a8",
+    "storage_bucket": "pointgourmand-3d8a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576565161885:android:359616c362cb64ac",
+        "android_client_info": {
+          "package_name": "com.pg.sn.point_gourmand"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "576565161885-uolnd2qfvr6p49fuo2m3epthsq7g2eop.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2EaammJIsGYDqvGmIroZy5YnmViUkD5M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
