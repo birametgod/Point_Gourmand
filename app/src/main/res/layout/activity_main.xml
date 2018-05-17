@@ -61,23 +61,6 @@
                 android:shadowColor="@color/black"
                 android:shadowRadius="4"
                 android:textAllCaps="false"/>
-
-            <Button
-                android:id="@+id/btnSignUp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_margin="8dp"
-                android:textSize="15sp"
-                android:text="@string/inscription"
-                android:textColor="@color/white"
-                android:background="@null"
-                android:shadowColor="@color/black"
-                android:shadowRadius="4"
-                android:textAllCaps="false"/>
-
-
-            
         </LinearLayout>
 
     </RelativeLayout>

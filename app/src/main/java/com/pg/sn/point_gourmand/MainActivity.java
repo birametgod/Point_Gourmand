@@ -22,7 +22,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnSignIn, btnSignUp;
+    Button btnSignIn ;
     TextView slogan;
     private static final int RC_SIGN_IN = 123;
 
@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
-        btnSignUp = (Button) findViewById(R.id.btnSignUp);
 
         slogan = (TextView) findViewById(R.id.slogan);
 
@@ -49,17 +48,11 @@ public class MainActivity extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SignIn.class);
-                startActivity(intent);
+               startSignInActivity();
             }
         });
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startSignInActivity();
-            }
-        });
+
 
     }
 
