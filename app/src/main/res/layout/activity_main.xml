@@ -24,6 +24,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
                 android:textSize="45sp"
+                android:id="@+id/titre"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:layout_gravity="center"/>

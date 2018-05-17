@@ -3,19 +3,29 @@ package com.pg.sn.point_gourmand;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnSignIn ;
     TextView slogan;
+    private TextView titre ;
     private static final int RC_SIGN_IN = 123;
+
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,25 +49,96 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        btnSignIn = (Button) findViewById(R.id.btnSignIn);
 
+
+        btnSignIn = (Button) findViewById(R.id.btnSignIn);
+        titre = (TextView) findViewById(R.id.titre);
         slogan = (TextView) findViewById(R.id.slogan);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Nabila.ttf");
         slogan.setTypeface(font);
 
+        updateUIWhenCreating();
 
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-               startSignInActivity();
+                if (user == null) {
+                    startSignInActivity();
+                }
+                else {
+                    newProf(v);
+                }
             }
         });
-
-
-
     }
+
+    public void newProf(View view) {
+        Intent intent = new Intent(this, SignIn.class);
+        startActivity(intent);
+    }
+
+
+
+    @Nullable
+    protected FirebaseUser getCurrentUser(){ return FirebaseAuth.getInstance().getCurrentUser(); }
+
+    protected Boolean isCurrentUserLogged(){ return (this.getCurrentUser() != null); }
+
+    private void updateUIWhenCreating(){
+
+        if (this.getCurrentUser() != null){
+
+            //Get picture URL from Firebase
+            if (this.getCurrentUser().getPhotoUrl() != null) {
+                Glide.with(this)
+                        .load(this.getCurrentUser().getPhotoUrl())
+                        .apply(RequestOptions.circleCropTransform())
+                        ;
+            }
+
+            //Get email & username from Firebase
+
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+
+            if (resultCode == RESULT_OK) {
+                // Successfully signed in
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String email = TextUtils.isEmpty(user.getEmail()) ? getString(R.string.info_no_email_found) : this.getCurrentUser().getEmail();
+                String username = TextUtils.isEmpty(user.getDisplayName()) ? getString(R.string.info_no_username_found) : this.getCurrentUser().getDisplayName();
+
+                btnSignIn.setText("Enter");
+                titre.setText("Hello "+username);
+                slogan.setText("Point Gourmand vous souhaite la Bienvenue "atu);
+                slogan.setTextSize(45);
+                btnSignIn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        newProf(view);
+                    }
+                });
+                // ...
+            } else {
+                // Sign in failed. If response is null the user canceled the
+                // sign-in flow using the back button. Otherwise check
+                // response.getError().getErrorCode() and handle the error.
+                // ...
+            }
+        }
+    }
+
+
 
     private void startSignInActivity(){
         startActivityForResult(
