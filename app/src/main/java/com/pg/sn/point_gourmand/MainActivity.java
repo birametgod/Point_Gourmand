@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
                 btnSignIn.setText("Enter");
                 titre.setText("Hello "+username);
-                slogan.setText("Point Gourmand vous souhaite la Bienvenue "atu);
+                slogan.setText("Point Gourmand vous souhaite la Bienvenue ");
                 slogan.setTextSize(45);
                 btnSignIn.setOnClickListener(new View.OnClickListener() {
                     @Override
