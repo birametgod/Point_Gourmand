@@ -22,17 +22,20 @@ import com.bumptech.glide.request.RequestOptions;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btnSignIn ;
+    private DatabaseReference mDatabase;
     TextView slogan;
     private TextView titre ;
     private static final int RC_SIGN_IN = 123;
@@ -48,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
-
-
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
         titre = (TextView) findViewById(R.id.titre);
@@ -117,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String email = TextUtils.isEmpty(user.getEmail()) ? getString(R.string.info_no_email_found) : this.getCurrentUser().getEmail();
                 String username = TextUtils.isEmpty(user.getDisplayName()) ? getString(R.string.info_no_username_found) : this.getCurrentUser().getDisplayName();
+                String password = user.getUid();
+                writeNewUser(password,username,email);
 
                 btnSignIn.setText("Enter");
                 titre.setText("Hello "+username);
@@ -139,6 +143,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void writeNewUser(String password, String name, String email) {
+        User user = new User(name, email,password);
+
+        mDatabase.child("Users").child(name).setValue(user);
+    }
 
     private void startSignInActivity(){
         startActivityForResult(
