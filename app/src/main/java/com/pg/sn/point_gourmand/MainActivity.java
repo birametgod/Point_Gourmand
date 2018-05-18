@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+
+
+
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
         titre = (TextView) findViewById(R.id.titre);
         slogan = (TextView) findViewById(R.id.slogan);
@@ -78,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void newProf(View view) {
-        Intent intent = new Intent(this, SignIn.class);
+        Intent intent = new Intent(this, categories.class);
         startActivity(intent);
     }
 
