@@ -20,7 +20,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignIn" />
-        <activity android:name=".categories"></activity>
+        <activity android:name=".categories" />
+        <activity android:name=".ShowPlats"></activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

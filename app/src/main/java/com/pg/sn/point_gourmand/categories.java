@@ -1,8 +1,11 @@
 package com.pg.sn.point_gourmand;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -22,7 +25,21 @@ public class categories extends AppCompatActivity {
 
         adapterCategory = new CategoryAdapter(this,new ArrayList<Category>());
 
+
         categorieListView.setAdapter(adapterCategory);
+
+        categorieListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Category currentCategor = adapterCategory.getItem(position);
+
+                String name = currentCategor.getName();
+
+                Intent i = new Intent(categories.this,ShowPlats.class);
+                i.putExtra("nomType",name);
+                startActivity(i);
+            }
+        });
 
         categorieAsyncTask task = new categorieAsyncTask();
         task.execute(USGS_REQUEST_URL);
@@ -37,7 +54,6 @@ public class categories extends AppCompatActivity {
             if (urls.length < 1 || urls[0] == null) {
                 return null;
             }
-
             List<Category> p = QueryUtils.fetchCategory(urls[0]);
 
             return p;
