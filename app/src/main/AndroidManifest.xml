@@ -29,7 +29,9 @@
 
         <activity
             android:name=".SignIn1"
-            android:label="@string/title_activity_sign_in1"></activity>
+            android:label="@string/title_activity_sign_in1" />
+        <activity android:name=".platDetailActivity" />
+        <activity android:name=".ShowCommande"></activity>
     </application>
 
 </manifest>
