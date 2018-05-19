@@ -54,6 +54,25 @@ public class QueryUtilsPlats {
         return plats;
     }
 
+    public static List<Plat> fetchPlatsDetail(String requestUrl,String name) {
+        // Create URL object
+        URL url = createUrl(requestUrl);
+
+        // Perform HTTP request to the URL and receive a JSON response back
+        String jsonResponse = null;
+        try {
+            jsonResponse = makeHttpRequest(url);
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Problem making the HTTP request.", e);
+        }
+
+        // Extract relevant fields from the JSON response and create a list of {@link Earthquake}s
+        List<Plat> plats = extractPlatDetail(jsonResponse,name);
+
+        // Return the list of {@link Earthquake}s
+        return plats;
+    }
+
     private static URL createUrl(String stringUrl) {
         URL url = null;
         try {
@@ -151,6 +170,55 @@ public class QueryUtilsPlats {
                 String type = value.getString("type");
                 int prix = value.getInt("prix");
                 if (type.equals(nameType) ) {
+                    pla.add((new Plat(name,image,type,prix)));
+                }
+
+            }
+
+        } catch (JSONException e) {
+            // If an error is thrown when executing any of the above statements in the "try" block,
+            // catch the exception here, so the app doesn't crash. Print a log message
+            // with the message from the exception.
+            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
+        }
+
+        // Return the list of earthquakes
+        //return earthquakes;
+
+        return pla ;
+    }
+
+    private static List<Plat> extractPlatDetail(String platJson,String nameType) {
+
+        // If the JSON string is empty or null, then return early.
+        if (TextUtils.isEmpty(platJson)) {
+            return null;
+        }
+
+        // Create an empty ArrayList that we can start adding earthquakes to
+        // List<Eearthquakr> earthquakes = new ArrayList<>();
+
+        List<Plat> pla = new ArrayList<>();
+
+        // Try to parse the JSON RESPONSE. If there's a problem with the way the JSON
+        // is formatted, a JSONException exception object will be thrown.
+        // Catch the exception so the app doesn't crash, and print the error message to the logs.
+        try {
+
+            // Create a JSONObject from the JSON response string
+            JSONObject baseJsonResponse = new JSONObject(platJson);
+            Iterator<String> iter = baseJsonResponse.keys();
+
+
+            while (iter.hasNext()) {
+                String key = iter.next();
+
+                JSONObject value = baseJsonResponse.getJSONObject(key);
+                String name = value.getString("nom");
+                String image = value.getString("image");
+                String type = value.getString("type");
+                int prix = value.getInt("prix");
+                if (name.equals(nameType)) {
                     pla.add((new Plat(name,image,type,prix)));
                 }
 
